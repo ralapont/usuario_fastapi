@@ -1,5 +1,4 @@
 from fastapi import APIRouter, HTTPException, status
-
 from app.schemas import User
 
 router = APIRouter(prefix="/user", tags=["users"])

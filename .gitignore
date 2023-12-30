@@ -3,4 +3,6 @@ __pycache__
 app\__pycache__
 app\routers\__pycache__
 app\db\__pycache__
+app\repository\__pycache__
+
 

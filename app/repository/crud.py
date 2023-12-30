@@ -7,7 +7,9 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.User_model).offset(skip).limit(limit).all()
 
 def create_user(db: Session, user: User):
-    db_user = models.User_model(nombre = user.nombre, 
+    db_user = models.User_model(username = user.username,
+                                password = user.password,
+                                nombre = user.nombre, 
                                 apellido = user.apellido, 
                                 direccion = user.direccion, 
                                 correo = user.correo, 

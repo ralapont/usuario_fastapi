@@ -22,7 +22,10 @@ def create_user(db: Session, user: User):
     return db_user
 
 def get_user(db: Session, user_id: int):
-    return db.query(models.User_model).filter(models.User_model.id == user_id).first()
+    user_db = db.query(models.User_model).filter(models.User_model.id == user_id).first()
+    if not user_db:
+        return None
+    return user_db
 
 def delete_user(db: Session, user_id: int):
     user_old = db_hero = db.get(models.User_model, user_id)

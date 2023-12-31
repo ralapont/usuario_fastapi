@@ -4,8 +4,10 @@ from app.db.database import get_db
 from sqlalchemy.orm import Session
 from app.db.models import User_model
 import app.repository.crud as crud
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 router = APIRouter(prefix="/user", tags=["users"])
+oauth2_scheme = OAuth2PasswordBearer("/token")
 
 @router.get("/", response_model=list[UserResponse])
 async def get(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
@@ -16,7 +18,8 @@ async def get(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND , detail="User not exists")
  
 @router.get("/{user_id}", response_model=UserResumido)
-async def get_user(user_id:int, db: Session = Depends(get_db)):
+async def get_user(user_id:int, db: Session = Depends(get_db), token:str = Depends(oauth2_scheme),):
+    print("token: {}".format(token))
     data = crud.get_user(db, user_id)
     if data:
         return data

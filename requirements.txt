@@ -3,4 +3,8 @@ uvicorn
 psycopg2
 SQLAlchemy
 python-dotenv
+autopep8
+python-multipart
+python-jose
+passlib[bcrypt]
 

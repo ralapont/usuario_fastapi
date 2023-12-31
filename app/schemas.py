@@ -27,4 +27,11 @@ class UserResumido(BaseModel):
     correo: str
     class Config():
         from_attributes = True
+
+class UserUpdate(BaseModel):        
+    nombre: Optional[str] = None
+    apellido: Optional[str] = None
+    direccion: Optional[str] = None
+    telefono: Optional[int] = None
+    correo: Optional[str] = None
         

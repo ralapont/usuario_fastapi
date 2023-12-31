@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, status, Depends
-from app.schemas import User, UserResponse, UserResumido
+from app.schemas import User, UserResponse, UserResumido, UserUpdate
 from app.db.database import get_db
 from sqlalchemy.orm import Session
 from app.db.models import User_model
@@ -37,7 +37,7 @@ async def remove_user(user_id:int, db: Session = Depends(get_db)):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND , detail="User not exists")
 
 @router.patch('/{user_id}', response_model=UserResponse, status_code=status.HTTP_200_OK)
-async def update_user(user_id:int, user_new:User, db: Session = Depends(get_db)):
+async def update_user(user_id:int, user_new: UserUpdate, db: Session = Depends(get_db)):
     print("El new user is: {} id: {}".format(user_new, user_id))
     
     user_update = crud.update_user(db, user_id, user_new)

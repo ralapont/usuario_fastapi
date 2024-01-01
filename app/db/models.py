@@ -18,6 +18,9 @@ class User_model(Base):
     creacion = Column(DateTime, default=datetime.now())
     estado = Column(Boolean, default=False)
     venta = relationship("Venta", backref="usuario", cascade="delete, merge")
+    
+    def __repr__(self):
+        return 'id:{}, username:{}, correo: {}'.format(self.id, self.username, self.correo) 
 
 class Venta(Base):
    __tablename__ = "venta"

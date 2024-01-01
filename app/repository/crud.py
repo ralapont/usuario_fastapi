@@ -1,20 +1,24 @@
 from sqlalchemy.orm import Session
 from app.db import models
 from app.schemas import User
+from passlib.context import CryptContext
 
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def hashed_password(plane_password:str):
+    return pwd_context.encrypt(plane_password)
 
 def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.User_model).offset(skip).limit(limit).all()
 
 def create_user(db: Session, user: User):
     db_user = models.User_model(username = user.username,
-                                password = user.password,
+                                password = hashed_password(user.password),
                                 nombre = user.nombre, 
                                 apellido = user.apellido, 
                                 direccion = user.direccion, 
                                 correo = user.correo, 
                                 telefono = user.telefono,
-                                creacion = user.creacion,
                                 estado = True)
     db.add(db_user)
     db.commit()
@@ -45,3 +49,9 @@ def update_user(db: Session, user_id:int, user_new: User):
     db.commit()
     db.refresh(db_user)
     return db_user        
+
+def get_user_by_username(db: Session, username: str):
+    user_db = db.query(models.User_model).filter(models.User_model.username == username).first()
+    if not user_db:
+        return None
+    return user_db
